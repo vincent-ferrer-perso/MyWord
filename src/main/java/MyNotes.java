@@ -10,8 +10,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.awt.*;
+
+import static javafx.geometry.Pos.CENTER;
+import static javafx.geometry.Pos.TOP_CENTER;
 
 
 public class MyNotes extends Application {
@@ -33,7 +38,7 @@ public class MyNotes extends Application {
     private HBox commands;
 
     EventHandler<ActionEvent> ecouteurCentrer = event -> {
-        text.setStyle("text-align: center;");
+        // à implementer
     };
 
 
@@ -47,13 +52,13 @@ public class MyNotes extends Application {
 
 
         commands = new HBox(save,left,center,right);
-        commands.setAlignment(Pos.TOP_CENTER);
+        commands.setAlignment(TOP_CENTER);
         commands.setPadding(new Insets(10));
         commands.setSpacing(20);
         commands.setPadding(new Insets(10));
 
         text = new Text();
-        textArea = new TextArea(text.toString());
+        textArea = new TextArea();
         textArea.setWrapText(true);
         textArea.setPrefSize(450,250);
         textArea.setMaxSize(450,250);

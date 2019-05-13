@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cad6abaa-e373-475b-9241-f648d3608e4e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MyNotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MyNotes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MyNotes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MyNotes.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -23,8 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/MyNotes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+            <state relative-caret-position="195">
+              <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -153,12 +153,12 @@
       <option name="presentableId" value="Default" />
       <updated>1557759355611</updated>
       <workItem from="1557759356921" duration="3879000" />
-      <workItem from="1557763500429" duration="566000" />
+      <workItem from="1557763500429" duration="3952000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4445000" />
+    <option name="totallyTimeSpent" value="7831000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="743" extended-state="6" />
@@ -205,8 +205,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/MyNotes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+        <state relative-caret-position="195">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

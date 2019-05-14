@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.awt.*;
+
 
 import static javafx.geometry.Pos.CENTER;
 import static javafx.geometry.Pos.TOP_CENTER;
@@ -30,15 +30,28 @@ public class MyNotes extends Application {
     private Button left;
     private Button center;
     private Button right;
+    private Button copy;
+    private Button cut;
+    private Button paste;
 
     private TextArea textArea;
-    private Text text;
+
 
     private VBox root;
     private HBox commands;
 
     EventHandler<ActionEvent> ecouteurCentrer = event -> {
-        // à implementer
+        textArea.setCenterShape(true);
+    };
+
+    EventHandler<ActionEvent> ecouteurCopy = event -> {
+        textArea.copy();
+    };
+    EventHandler<ActionEvent> ecouteurCut = event -> {
+        textArea.cut();
+    };
+    EventHandler<ActionEvent> ecouteurPaste = event -> {
+        textArea.paste();
     };
 
 
@@ -46,29 +59,44 @@ public class MyNotes extends Application {
     @Override
     public void start(Stage primaryStage) {
         save   = new Button("Enregistrer"  );
+
         left   = new Button("Left"  );
         center = new Button("Center");
         right  = new Button("Right" );
 
+        copy   = new Button("Copier");
+        cut    = new Button("Couper");
+        paste  = new Button("Coller");
 
-        commands = new HBox(save,left,center,right);
+
+        commands = new HBox(save,left,center,right,copy,cut,paste);
         commands.setAlignment(TOP_CENTER);
         commands.setPadding(new Insets(10));
         commands.setSpacing(20);
         commands.setPadding(new Insets(10));
 
-        text = new Text();
         textArea = new TextArea();
         textArea.setWrapText(true);
-        textArea.setPrefSize(450,250);
-        textArea.setMaxSize(450,250);
+
+
 
         root = new VBox(commands,textArea);
+        Scene scene = new Scene(root);
+        root.setMinSize(scene.getWidth(),scene.getWidth());
+
+
 
 
         center.setOnAction(ecouteurCentrer);
+        copy.setOnAction(ecouteurCopy);
+        cut.setOnAction(ecouteurCut);
+        paste.setOnAction(ecouteurPaste);
 
-        Scene scene = new Scene(root);
+
+
+
+        primaryStage.setMinHeight(480);
+        primaryStage.setMinWidth(620);
         primaryStage.setTitle("MyNotes");
         primaryStage.setScene(scene);
         primaryStage.show();

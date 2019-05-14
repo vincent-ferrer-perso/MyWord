@@ -47,7 +47,7 @@ public class MyNotes extends Application {
 
 
 
-    EventHandler<ActionEvent> ecouteurNewFile = event -> {
+    EventHandler<ActionEvent> ecouteurNewFile = event -> {//pas fonctionnel
         StackPane secondaryLayout = new StackPane();
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         secondScene = scene;

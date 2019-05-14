@@ -4,19 +4,16 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-
-
-import static javafx.geometry.Pos.CENTER;
-import static javafx.geometry.Pos.TOP_CENTER;
+import static javafx.geometry.Pos.*;
 
 
 public class MyNotes extends Application {
@@ -26,22 +23,42 @@ public class MyNotes extends Application {
         launch(args);
     }
 
-    private Button save;
-    private Button left;
-    private Button center;
-    private Button right;
-    private Button copy;
-    private Button cut;
-    private Button paste;
+
+    private MenuBar menuBar;
+    private Menu menuFile;
+    private Menu menuPositionTexte;
+    private Menu menuCopier;
+
+    private MenuItem newFile;
+    private MenuItem save;
+    private MenuItem left;
+    private MenuItem center;
+    private MenuItem right;
+    private MenuItem copy;
+    private MenuItem cut;
+    private MenuItem paste;
 
     private TextArea textArea;
 
 
+    private Scene scene;
     private VBox root;
     private HBox commands;
 
+
+
+    EventHandler<ActionEvent> ecouteurNewFile = event -> {
+        StackPane secondaryLayout = new StackPane();
+        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        secondScene = scene;
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Second Stage");
+        newWindow.setScene(secondScene);
+        newWindow.show();
+    };
+
     EventHandler<ActionEvent> ecouteurCentrer = event -> {
-        textArea.setCenterShape(true);
+        //à implementer
     };
 
     EventHandler<ActionEvent> ecouteurCopy = event -> {
@@ -58,19 +75,30 @@ public class MyNotes extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        save   = new Button("Enregistrer"  );
-
-        left   = new Button("Left"  );
-        center = new Button("Center");
-        right  = new Button("Right" );
-
-        copy   = new Button("Copier");
-        cut    = new Button("Couper");
-        paste  = new Button("Coller");
 
 
-        commands = new HBox(save,left,center,right,copy,cut,paste);
-        commands.setAlignment(TOP_CENTER);
+
+        newFile = new MenuItem("Nouveau");
+        save   = new MenuItem("Enregistrer"  );
+
+        left   = new MenuItem("Left"  );
+        center = new MenuItem("Center");
+        right  = new MenuItem("Right" );
+
+        copy   = new MenuItem("Copier");
+        cut    = new MenuItem("Couper");
+        paste  = new MenuItem("Coller");
+
+        menuFile = new Menu("Fichier");
+        menuFile.getItems().addAll(newFile,save);
+        menuPositionTexte = new Menu("Position");
+        menuPositionTexte.getItems().addAll(left,center,right);
+        menuCopier = new Menu("Copier");
+        menuCopier.getItems().addAll(copy,cut,paste);
+
+        menuBar = new MenuBar(menuFile,menuPositionTexte,menuCopier);
+        commands = new HBox(menuBar);
+        commands.setAlignment(TOP_LEFT);
         commands.setPadding(new Insets(10));
         commands.setSpacing(20);
         commands.setPadding(new Insets(10));
@@ -81,12 +109,13 @@ public class MyNotes extends Application {
 
 
         root = new VBox(commands,textArea);
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         root.setMinSize(scene.getWidth(),scene.getWidth());
 
 
 
 
+        newFile.setOnAction(ecouteurNewFile);
         center.setOnAction(ecouteurCentrer);
         copy.setOnAction(ecouteurCopy);
         cut.setOnAction(ecouteurCut);

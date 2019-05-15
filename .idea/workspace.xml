@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cad6abaa-e373-475b-9241-f648d3608e4e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/MyNotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MyNotes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MyNotes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MyNotes.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -22,8 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/MyNotes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="53" column="81" selection-start-line="53" selection-start-column="81" selection-end-line="53" selection-end-column="81" />
+            <state relative-caret-position="186">
+              <caret line="107" column="27" selection-start-line="107" selection-start-column="27" selection-end-line="107" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,7 +65,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -94,6 +94,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -155,17 +156,18 @@
       <workItem from="1557759356921" duration="3879000" />
       <workItem from="1557763500429" duration="3952000" />
       <workItem from="1557837167005" duration="7175000" />
+      <workItem from="1557943876909" duration="1941000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15006000" />
+    <option name="totallyTimeSpent" value="16947000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-5" y="26" width="1690" height="1005" extended-state="6" />
+    <frame x="-1" y="0" width="1368" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2567237" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.260574" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -174,7 +176,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32801822" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32686085" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -206,8 +208,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/MyNotes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="53" column="81" selection-start-line="53" selection-start-column="81" selection-end-line="53" selection-end-column="81" />
+        <state relative-caret-position="186">
+          <caret line="107" column="27" selection-start-line="107" selection-start-column="27" selection-end-line="107" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

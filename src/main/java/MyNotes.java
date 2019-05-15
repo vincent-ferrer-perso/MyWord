@@ -43,19 +43,10 @@ public class MyNotes extends Application {
 
     private Scene scene;
     private VBox root;
-    private HBox commands;
 
 
 
-    EventHandler<ActionEvent> ecouteurNewFile = event -> {//pas fonctionnel
-        StackPane secondaryLayout = new StackPane();
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
-        secondScene = scene;
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Second Stage");
-        newWindow.setScene(secondScene);
-        newWindow.show();
-    };
+
 
     EventHandler<ActionEvent> ecouteurCentrer = event -> {
         //à implementer
@@ -76,6 +67,12 @@ public class MyNotes extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        EventHandler<ActionEvent> ecouteurNewFile = event -> {//pas fonctionnel
+            Stage newWindow = new Stage();
+            newWindow.initOwner(primaryStage);
+            newWindow.setTitle("Second Stage");
+            newWindow.show();
+        };
 
 
         newFile = new MenuItem("Nouveau");
@@ -97,21 +94,20 @@ public class MyNotes extends Application {
         menuCopier.getItems().addAll(copy,cut,paste);
 
         menuBar = new MenuBar(menuFile,menuPositionTexte,menuCopier);
-        commands = new HBox(menuBar);
-        commands.setAlignment(TOP_LEFT);
-        commands.setPadding(new Insets(10));
-        commands.setSpacing(20);
-        commands.setPadding(new Insets(10));
 
         textArea = new TextArea();
         textArea.setWrapText(true);
+        textArea.setPrefRowCount(150);
 
 
 
-        root = new VBox(commands,textArea);
+        root = new VBox(menuBar,textArea);
+        root.setFillWidth(true);
+
         scene = new Scene(root);
-        root.setMinSize(scene.getWidth(),scene.getWidth());
-
+        primaryStage.setMinWidth(400);
+        primaryStage.setMinHeight(320);
+        root.setPrefHeight(350);
 
 
 
@@ -124,11 +120,16 @@ public class MyNotes extends Application {
 
 
 
-        primaryStage.setMinHeight(480);
-        primaryStage.setMinWidth(620);
+
         primaryStage.setTitle("MyNotes");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+
+
+
+
     }
 
 

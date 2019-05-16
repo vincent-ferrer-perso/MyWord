@@ -20,13 +20,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.*;
 import java.lang.*;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -100,12 +98,22 @@ public class MyNotes extends Application {
         EventHandler<ActionEvent> ecouteurOpen = event -> {//ne convertit pas lecture du fichier en string pour textArea
             fileChooser = new FileChooser();
             File file = fileChooser.showOpenDialog(primaryStage);
-            try {
-
+            int compteur = 0;
+            BufferedReader br;
+            String ligneLu;
+            try{
                 fileRead = new FileReader(file);
-                fileRead.read();
-                fileRead.close();
-            } catch (IOException e) {
+                br = new BufferedReader(fileRead);
+                while((ligneLu = br.readLine()) != null)
+                {
+                    System.out.println(ligneLu);
+                    compteur++;
+                }
+
+                br.close();
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }catch(IOException e){
                 e.printStackTrace();
             }
         };

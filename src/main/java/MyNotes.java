@@ -12,6 +12,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -33,6 +34,7 @@ import javafx.stage.DirectoryChooser;
 import sun.applet.Main;
 
 import static javafx.geometry.Pos.*;
+import static javafx.scene.control.Alert.AlertType.CONFIRMATION;
 
 
 public class MyNotes extends Application {
@@ -74,7 +76,15 @@ public class MyNotes extends Application {
 
     private Desktop desktop;
 
+    Optional<ButtonType> creerAlerteConfirmation(Alert nomAlerte, String titreAlerte, String action,String complement) {
 
+        nomAlerte.setAlertType(CONFIRMATION);
+        nomAlerte.setTitle(titreAlerte);
+        nomAlerte.setHeaderText(null);
+        nomAlerte.setContentText("Voulez-vous "+action+" ce fichier " + complement);
+        Optional<ButtonType> answer = nomAlerte.showAndWait();
+        return answer;
+    }
 
 
     EventHandler<ActionEvent> ecouteurCentrer = event -> {
@@ -130,11 +140,16 @@ public class MyNotes extends Application {
 
         };
 
-        EventHandler<ActionEvent> ecouteurNewFile = event -> {//pas fonctionnel
-            Stage newWindow = new Stage();
-            newWindow.initOwner(primaryStage);
-            newWindow.setTitle("Second Stage");
-            newWindow.show();
+        EventHandler<ActionEvent> ecouteurNewFile = event -> {//Nouveau fichier ouvert mais ancien pas save
+            Alert alertOuvrirSansSauvegarder =new Alert(CONFIRMATION);
+            Optional<ButtonType> rep;
+            rep =  creerAlerteConfirmation(alertOuvrirSansSauvegarder,
+                                   "Ouvrir un nouveau fichier",
+                                      "sauvegarder",
+                                 "avant de créer un nouveau fichier");
+            if (rep.get() == ButtonType.OK){
+            }
+            start(primaryStage);
         };
 
 
@@ -176,8 +191,14 @@ public class MyNotes extends Application {
 
 
         newFile.setOnAction(ecouteurNewFile);
+        newFile.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
+
         open.setOnAction(ecouteurOpen);
+        open.setAccelerator(KeyCombination.keyCombination("Ctrl+O"));
+
         save.setOnAction(ecouteurSave);
+        save.setAccelerator(KeyCombination.keyCombination("Ctrl+S"));
+
         center.setOnAction(ecouteurCentrer);
         copy.setOnAction(ecouteurCopy);
         cut.setOnAction(ecouteurCut);

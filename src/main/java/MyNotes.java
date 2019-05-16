@@ -25,6 +25,7 @@ import java.io.*;
 import java.lang.*;
 
 import java.awt.*;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,10 +96,9 @@ public class MyNotes extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        EventHandler<ActionEvent> ecouteurOpen = event -> {//ne convertit pas lecture du fichier en string pour textArea
+        EventHandler<ActionEvent> ecouteurOpen = event -> {
             fileChooser = new FileChooser();
             File file = fileChooser.showOpenDialog(primaryStage);
-            int compteur = 0;
             BufferedReader br;
             String ligneLu;
             try{
@@ -106,22 +106,21 @@ public class MyNotes extends Application {
                 br = new BufferedReader(fileRead);
                 while((ligneLu = br.readLine()) != null)
                 {
-                    System.out.println(ligneLu);
-                    compteur++;
+                    textArea.appendText(ligneLu+'\n');
                 }
-
                 br.close();
+                primaryStage.setTitle(file.getName());
             }catch(FileNotFoundException e){
                 e.printStackTrace();
             }catch(IOException e){
                 e.printStackTrace();
             }
         };
+
         EventHandler<ActionEvent> ecouteurSave = event -> {
             fileChooser = new FileChooser();
             File file = fileChooser.showSaveDialog(primaryStage);
             try {
-
                 fileWriter = new FileWriter(file);
                 fileWriter.write(textArea.getText());
                 fileWriter.close();

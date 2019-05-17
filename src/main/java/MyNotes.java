@@ -3,11 +3,11 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -15,10 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -56,6 +53,8 @@ public class MyNotes extends Application {
     private Menu menuCopier;
 
     private HBox commandsShortcut;
+    private Button newFileShortcut;
+    private Button openShortcut;
     private Button saveShortcut;
 
 
@@ -81,10 +80,15 @@ public class MyNotes extends Application {
     private VBox root;
 
 
-
-
-
-    private Desktop desktop;
+    ImageView creerImageViewShortcut(String nomImage){
+        File fileImgSave = new File("./"+nomImage);
+        String localUrl = fileImgSave.toURI().toString();
+        Image imgSave = new Image(localUrl);
+        ImageView imgView = new ImageView(imgSave);
+        imgView.fitHeightProperty().setValue(20);
+        imgView.fitWidthProperty().setValue(20);
+        return imgView;
+    }
 
     Optional<ButtonType> creerAlerteConfirmation(Alert nomAlerte, String titreAlerte, String action,String complement) {
         nomAlerte.setAlertType(CONFIRMATION);
@@ -142,53 +146,58 @@ public class MyNotes extends Application {
         };//ecouteurSave
 
         EventHandler<ActionEvent> ecouteurOpen = event -> {
-            Alert alertOuvrirSansSauvegarder =new Alert(CONFIRMATION);
-            Optional<ButtonType> rep;
-            rep =  creerAlerteConfirmation(alertOuvrirSansSauvegarder,
-                    "Ouvrir un autre fichier",
-                    "sauvegarder",
-                    "avant d'ouvrir un autre fichier");
-            if (rep.get() == ButtonType.OK) {
-                ecouteurSave.handle(event);
-                textArea.clear();
-                fileChooser = new FileChooser();
-                File file = fileChooser.showOpenDialog(primaryStage);
-                BufferedReader br;
-                String ligneLu;
-                try {
-                    fileRead = new FileReader(file);
-                    br = new BufferedReader(fileRead);
-                    currentWorkingDir = file.getParent();
-                    while ((ligneLu = br.readLine()) != null) {
-                        textArea.appendText(ligneLu + '\n');
-                    }
-                    br.close();
-                    primaryStage.setTitle(file.getName());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if(textArea.getText().length() != 0) {
+                Alert alertOuvrirSansSauvegarder = new Alert(CONFIRMATION);
+                Optional<ButtonType> rep;
+                rep = creerAlerteConfirmation(alertOuvrirSansSauvegarder,
+                        "Ouvrir un autre fichier",
+                        "sauvegarder",
+                        "avant d'ouvrir un autre fichier");
+                if (rep.get() == ButtonType.OK) {
+                    ecouteurSave.handle(event);
+                    textArea.clear();
                 }
+            }
+
+            fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(primaryStage);
+            BufferedReader br;
+            String ligneLu;
+            try {
+                fileRead = new FileReader(file);
+                br = new BufferedReader(fileRead);
+                currentWorkingDir = file.getParent();
+                while ((ligneLu = br.readLine()) != null) {
+                    textArea.appendText(ligneLu + '\n');
+                }
+                br.close();
+                primaryStage.setTitle(file.getName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         };//ecouteurOpen
 
         EventHandler<ActionEvent> ecouteurNewFile = event -> {
-            Alert alertOuvrirSansSauvegarder =new Alert(CONFIRMATION);
-            Optional<ButtonType> rep;
-            rep =  creerAlerteConfirmation(alertOuvrirSansSauvegarder,
-                                   "Ouvrir un nouveau fichier",
-                                      "sauvegarder",
-                                 "avant de créer un nouveau fichier");
-            if (rep.get() == ButtonType.OK){
-                ecouteurSave.handle(event);
+            if(textArea.getText().length() != 0) {
+                Alert alertOuvrirSansSauvegarder = new Alert(CONFIRMATION);
+                Optional<ButtonType> rep;
+                rep = creerAlerteConfirmation(alertOuvrirSansSauvegarder,
+                        "Ouvrir un nouveau fichier",
+                        "sauvegarder",
+                        "avant de créer un nouveau fichier");
+                if (rep.get() == ButtonType.OK) {
+                    ecouteurSave.handle(event);
+                }
+                start(primaryStage);
             }
-            start(primaryStage);
         };//ecouteurSaveNewFile
 
 
         newFile = new MenuItem("Nouveau");
         open    = new MenuItem("Ouvrir");
-        save    = new MenuItem("Enregistrer"  );
+        save    = new MenuItem("Enregistrer");
 
         left   = new MenuItem("Left"  );
         center = new MenuItem("Center");
@@ -198,6 +207,8 @@ public class MyNotes extends Application {
         cut    = new MenuItem("Couper");
         paste  = new MenuItem("Coller");
 
+        newFileShortcut = new Button();
+        openShortcut = new Button();
         saveShortcut = new Button();
 
         menuFile = new Menu("Fichier");
@@ -210,10 +221,15 @@ public class MyNotes extends Application {
         menuBar = new MenuBar(menuFile,menuPositionTexte,menuCopier);
 
 
-        saveShortcut.setStyle("-fx-background-image: disquette'.'png;");//pas image
+        newFileShortcut.setGraphic(creerImageViewShortcut("nouveauFichier.png"));
+        openShortcut.setGraphic(creerImageViewShortcut("ouvrir.png"));
+        saveShortcut.setGraphic(creerImageViewShortcut("disquette.png"));
 
+        Label labelVide = new Label();
+        labelVide.setPrefWidth(6);
 
-        commandsShortcut = new HBox(saveShortcut);
+        commandsShortcut = new HBox(labelVide,newFileShortcut,openShortcut,saveShortcut);
+        commandsShortcut.setSpacing(10);
 
 
         textArea = new TextArea();
@@ -233,9 +249,11 @@ public class MyNotes extends Application {
 
 
         newFile.setOnAction(ecouteurNewFile);
+        newFileShortcut.setOnAction(ecouteurNewFile);
         newFile.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
 
         open.setOnAction(ecouteurOpen);
+        openShortcut.setOnAction(ecouteurOpen);
         open.setAccelerator(KeyCombination.keyCombination("Ctrl+O"));
 
         save.setOnAction(ecouteurSave);

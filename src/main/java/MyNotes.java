@@ -51,6 +51,7 @@ public class MyNotes extends Application {
     private Menu menuFile;
     private Menu menuPositionTexte;
     private Menu menuCopier;
+    private Menu menuTexte;
 
     private HBox commandsShortcut;
     private Button newFileShortcut;
@@ -64,6 +65,7 @@ public class MyNotes extends Application {
     private MenuItem left;
     private MenuItem center;
     private MenuItem right;
+    private MenuItem couleurTexte;
     private MenuItem copy;
     private MenuItem cut;
     private MenuItem paste;
@@ -207,6 +209,8 @@ public class MyNotes extends Application {
         cut    = new MenuItem("Couper");
         paste  = new MenuItem("Coller");
 
+        couleurTexte = new MenuItem("Couleur");
+
         newFileShortcut = new Button();
         openShortcut = new Button();
         saveShortcut = new Button();
@@ -215,10 +219,12 @@ public class MyNotes extends Application {
         menuFile.getItems().addAll(newFile,open,save);
         menuPositionTexte = new Menu("Position");
         menuPositionTexte.getItems().addAll(left,center,right);
+        menuTexte = new Menu("Texte");
+        menuTexte.getItems().addAll(menuPositionTexte,couleurTexte);
         menuCopier = new Menu("Copier");
         menuCopier.getItems().addAll(copy,cut,paste);
 
-        menuBar = new MenuBar(menuFile,menuPositionTexte,menuCopier);
+        menuBar = new MenuBar(menuFile,menuTexte,menuCopier);
 
 
         newFileShortcut.setGraphic(creerImageViewShortcut("nouveauFichier.png"));

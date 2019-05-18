@@ -82,6 +82,29 @@ public class MyNotes extends Application {
     private VBox root;
 
 
+
+    public void OpenFile(Stage stage){
+        fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(stage);
+        BufferedReader br;
+        String ligneLu;
+        try {
+            fileRead = new FileReader(file);
+            br = new BufferedReader(fileRead);
+            currentWorkingDir = file.getParent();
+            while ((ligneLu = br.readLine()) != null) {
+                textArea.appendText(ligneLu + '\n');
+            }
+            br.close();
+            stage.setTitle(file.getName());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     ImageView creerImageViewShortcut(String nomImage){
         File fileImgSave = new File("./"+nomImage);
         String localUrl = fileImgSave.toURI().toString();
@@ -97,6 +120,12 @@ public class MyNotes extends Application {
         nomAlerte.setTitle(titreAlerte);
         nomAlerte.setHeaderText(null);
         nomAlerte.setContentText("Voulez-vous "+action+" ce fichier " + complement);
+        nomAlerte.getButtonTypes().setAll(ButtonType.CANCEL,ButtonType.NO,ButtonType.YES);
+        ImageView imgInterrogation = creerImageViewShortcut("Interrogation.png");
+        imgInterrogation.setFitWidth(50);
+        imgInterrogation.setFitHeight(50);
+        nomAlerte.setGraphic(imgInterrogation);
+
         Optional<ButtonType> answer = nomAlerte.showAndWait();
         return answer;
     }
@@ -147,38 +176,27 @@ public class MyNotes extends Application {
             }
         };//ecouteurSave
 
+
+
         EventHandler<ActionEvent> ecouteurOpen = event -> {
-            if(textArea.getText().length() != 0) {
+            if(textArea.getText().length() != 0 || primaryStage.getTitle() != "MyNotes") {
                 Alert alertOuvrirSansSauvegarder = new Alert(CONFIRMATION);
                 Optional<ButtonType> rep;
                 rep = creerAlerteConfirmation(alertOuvrirSansSauvegarder,
                         "Ouvrir un autre fichier",
                         "sauvegarder",
                         "avant d'ouvrir un autre fichier");
-                if (rep.get() == ButtonType.OK) {
-                    ecouteurSave.handle(event);
+                if (rep.get() == ButtonType.YES || rep.get() == ButtonType.NO) {
+                    if (rep.get() == ButtonType.YES) {
+                        ecouteurSave.handle(event);
+                    }
                     textArea.clear();
+                    primaryStage.setTitle("MyNotes");
+                    start(primaryStage);
+                    OpenFile(primaryStage);
                 }
-            }
-
-            fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(primaryStage);
-            BufferedReader br;
-            String ligneLu;
-            try {
-                fileRead = new FileReader(file);
-                br = new BufferedReader(fileRead);
-                currentWorkingDir = file.getParent();
-                while ((ligneLu = br.readLine()) != null) {
-                    textArea.appendText(ligneLu + '\n');
-                }
-                br.close();
-                primaryStage.setTitle(file.getName());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            }else
+                OpenFile(primaryStage);
         };//ecouteurOpen
 
         EventHandler<ActionEvent> ecouteurNewFile = event -> {
@@ -189,10 +207,15 @@ public class MyNotes extends Application {
                         "Ouvrir un nouveau fichier",
                         "sauvegarder",
                         "avant de créer un nouveau fichier");
-                if (rep.get() == ButtonType.OK) {
+                if (rep.get() == ButtonType.YES) {
                     ecouteurSave.handle(event);
+                    start(primaryStage);
                 }
-                start(primaryStage);
+                else if(rep.get() == ButtonType.NO){
+                    textArea.clear();
+                    start(primaryStage);
+                }
+
             }
         };//ecouteurSaveNewFile
 

@@ -85,6 +85,7 @@ public class MyNotes extends Application {
 
     public void OpenFile(Stage stage){
         fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         File file = fileChooser.showOpenDialog(stage);
         BufferedReader br;
         String ligneLu;
@@ -103,6 +104,7 @@ public class MyNotes extends Application {
             e.printStackTrace();
         }
     }
+
 
 
     ImageView creerImageViewShortcut(String nomImage){
@@ -153,6 +155,7 @@ public class MyNotes extends Application {
         EventHandler<ActionEvent> ecouteurSave = event -> {
             if (primaryStage.getTitle() == "MyNotes") {
                 fileChooser = new FileChooser();
+                fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
                 File file = fileChooser.showSaveDialog(primaryStage);
                 currentWorkingDir = file.getParent();
                 try {

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -16,10 +17,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -30,7 +32,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.stage.DirectoryChooser;
+import javafx.stage.Window;
 import sun.applet.Main;
 
 import javax.imageio.ImageIO;
@@ -57,7 +59,9 @@ public class MyNotes extends Application {
     private Button newFileShortcut;
     private Button openShortcut;
     private Button saveShortcut;
+    private MenuItem couleurShortcut;
 
+    private ColorPicker colorPicker;
 
     private MenuItem newFile;
     private MenuItem open;
@@ -134,7 +138,29 @@ public class MyNotes extends Application {
 
 
     EventHandler<ActionEvent> ecouteurCentrer = event -> {
-        //à implementer
+        Text text = new Text();
+        text.setText(textArea.getText());
+                text.setTextOrigin(VPos.CENTER);
+    };
+
+    EventHandler<ActionEvent> ecouteurCouleurTexte = event -> {
+        colorPicker = new ColorPicker();
+
+        Scene sceneColor = new Scene(colorPicker);
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.initStyle(StageStyle.UNDECORATED);
+        newWindow.setAlwaysOnTop(true);
+        newWindow.setResizable(false);
+        newWindow.setScene(sceneColor);
+        newWindow.show();
+        System.out.println(colorPicker.getValue());
+    };
+
+    EventHandler<ActionEvent> ecouteurChangeCouleurTexte = event ->{
+        colorPicker = new ColorPicker();
+        Text text = new Text();
+        text.setFill(colorPicker.getValue());
     };
 
     EventHandler<ActionEvent> ecouteurCopy = event -> {
@@ -240,6 +266,7 @@ public class MyNotes extends Application {
         newFileShortcut = new Button();
         openShortcut = new Button();
         saveShortcut = new Button();
+        couleurShortcut = new MenuItem();
 
         menuFile = new Menu("Fichier");
         menuFile.getItems().addAll(newFile,open,save);
@@ -251,22 +278,26 @@ public class MyNotes extends Application {
         menuCopier.getItems().addAll(copy,cut,paste);
 
         menuBar = new MenuBar(menuFile,menuTexte,menuCopier);
+        couleurTexte.setOnAction(ecouteurCouleurTexte);
 
 
         newFileShortcut.setGraphic(creerImageViewShortcut("nouveauFichier.png"));
         openShortcut.setGraphic(creerImageViewShortcut("ouvrir.png"));
         saveShortcut.setGraphic(creerImageViewShortcut("disquette.png"));
+        couleurShortcut.setGraphic(colorPicker = new ColorPicker());
 
         Label labelVide = new Label();
         labelVide.setPrefWidth(6);
+        couleurShortcut.setOnAction(ecouteurChangeCouleurTexte);
 
-        commandsShortcut = new HBox(labelVide,newFileShortcut,openShortcut,saveShortcut);
+        commandsShortcut = new HBox(labelVide,newFileShortcut,openShortcut,saveShortcut,couleurShortcut.getGraphic());
         commandsShortcut.setSpacing(10);
 
 
         textArea = new TextArea();
         textArea.setWrapText(true);
         textArea.setPrefRowCount(150);
+
 
 
 
@@ -294,6 +325,9 @@ public class MyNotes extends Application {
 
         center.setOnAction(ecouteurCentrer);
         center.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
+
+        couleurTexte.setOnAction(ecouteurCouleurTexte);
+
         copy.setOnAction(ecouteurCopy);
         copy.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
         cut.setOnAction(ecouteurCut);
@@ -308,10 +342,6 @@ public class MyNotes extends Application {
         primaryStage.setTitle("MyNotes");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
-
-
 
 
     }
